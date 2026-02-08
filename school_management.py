@@ -157,6 +157,13 @@ class SchoolManagementCLI:
         
         confirm = input(f"Are you sure you want to delete {student.name}? (yes/no): ").strip().lower()
         if confirm == "yes":
+            # Remove student from all enrolled classes
+            for class_id in student.enrolled_classes:
+                class_obj = self.db.get_class(class_id)
+                if class_obj and student_id in class_obj.students:
+                    class_obj.students.remove(student_id)
+                    self.db.update_class(class_obj)
+            
             if self.db.delete_student(student_id):
                 print("Student deleted successfully!")
             else:
@@ -280,6 +287,13 @@ class SchoolManagementCLI:
         
         confirm = input(f"Are you sure you want to delete {teacher.name}? (yes/no): ").strip().lower()
         if confirm == "yes":
+            # Remove teacher from all assigned classes
+            for class_id in teacher.assigned_classes:
+                class_obj = self.db.get_class(class_id)
+                if class_obj and class_obj.teacher_id == teacher_id:
+                    class_obj.teacher_id = None
+                    self.db.update_class(class_obj)
+            
             if self.db.delete_teacher(teacher_id):
                 print("Teacher deleted successfully!")
             else:
@@ -395,6 +409,13 @@ class SchoolManagementCLI:
             print(f"Teacher with ID {teacher_id} not found.")
             return
         
+        # Remove class from previous teacher if exists
+        if class_obj.teacher_id:
+            old_teacher = self.db.get_teacher(class_obj.teacher_id)
+            if old_teacher and class_id in old_teacher.assigned_classes:
+                old_teacher.assigned_classes.remove(class_id)
+                self.db.update_teacher(old_teacher)
+        
         class_obj.teacher_id = teacher_id
         if class_id not in teacher.assigned_classes:
             teacher.assigned_classes.append(class_id)
@@ -442,6 +463,20 @@ class SchoolManagementCLI:
         
         confirm = input(f"Are you sure you want to delete {class_obj.name}? (yes/no): ").strip().lower()
         if confirm == "yes":
+            # Remove class from all enrolled students
+            for student_id in class_obj.students:
+                student = self.db.get_student(student_id)
+                if student and class_id in student.enrolled_classes:
+                    student.enrolled_classes.remove(class_id)
+                    self.db.update_student(student)
+            
+            # Remove class from assigned teacher
+            if class_obj.teacher_id:
+                teacher = self.db.get_teacher(class_obj.teacher_id)
+                if teacher and class_id in teacher.assigned_classes:
+                    teacher.assigned_classes.remove(class_id)
+                    self.db.update_teacher(teacher)
+            
             if self.db.delete_class(class_id):
                 print("Class deleted successfully!")
             else:

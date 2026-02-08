@@ -1,9 +1,7 @@
 """
 Data models for the School Management System
 """
-import json
 from typing import List, Optional
-from datetime import datetime
 
 
 class Student:
