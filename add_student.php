@@ -145,7 +145,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 
                 <div class="form-group">
                     <label for="enrollment_date">Enrollment Date</label>
-                    <input type="date" id="enrollment_date" name="enrollment_date" required>
+                    <input type="date" id="enrollment_date" name="enrollment_date" required value="<?php echo date('Y-m-d'); ?>">
                 </div>
                 
                 <div class="action-buttons">

@@ -87,7 +87,7 @@ $students = $conn->query("SELECT s.*, u.full_name, u.email FROM students s LEFT 
                             <td><?php echo htmlspecialchars($student['email']); ?></td>
                             <td><?php echo htmlspecialchars($student['phone']); ?></td>
                             <td>
-                                <a href="edit_student.php?id=<?php echo $student['student_id']; ?>" class="btn btn-sm">Edit</a>
+                                <a href="edit_student.php?id=<?php echo $student['student_id']; ?>" class="btn btn-primary btn-sm">Edit</a>
                                 <a href="students.php?delete=<?php echo $student['student_id']; ?>" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?')">Delete</a>
                             </td>
                         </tr>

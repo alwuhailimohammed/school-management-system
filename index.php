@@ -38,7 +38,7 @@
         </form>
         
         <p style="text-align: center; margin-top: 20px; color: #666; font-size: 14px;">
-            Default credentials: admin / admin123
+            <!-- Default credentials for development: admin / admin123 -->
         </p>
     </div>
     

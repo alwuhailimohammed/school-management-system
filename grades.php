@@ -20,6 +20,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_grade'])) {
     $remarks = $_POST['remarks'];
     
     // Calculate grade
+    if ($total_marks <= 0) {
+        $_SESSION['error'] = 'Total marks must be greater than zero';
+        header('Location: grades.php');
+        exit();
+    }
+    
     $percentage = ($marks_obtained / $total_marks) * 100;
     if ($percentage >= 90) $grade = 'A+';
     elseif ($percentage >= 80) $grade = 'A';
