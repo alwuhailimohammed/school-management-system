@@ -29,7 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_grade'])) {
     else $grade = 'F';
     
     $stmt = $conn->prepare("INSERT INTO grades (student_id, course_id, exam_type, marks_obtained, total_marks, grade, exam_date, remarks) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
-    $stmt->bind_param("iissddss", $student_id, $course_id, $exam_type, $marks_obtained, $total_marks, $grade, $exam_date, $remarks);
+    $stmt->bind_param("iisddsss", $student_id, $course_id, $exam_type, $marks_obtained, $total_marks, $grade, $exam_date, $remarks);
     
     if ($stmt->execute()) {
         $_SESSION['success'] = 'Grade added successfully';

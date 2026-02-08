@@ -11,8 +11,11 @@ $conn = getDBConnection();
 
 // Handle delete
 if (isset($_GET['delete'])) {
-    $student_id = $_GET['delete'];
-    $conn->query("DELETE FROM students WHERE student_id = $student_id");
+    $student_id = intval($_GET['delete']);
+    $stmt = $conn->prepare("DELETE FROM students WHERE student_id = ?");
+    $stmt->bind_param("i", $student_id);
+    $stmt->execute();
+    $stmt->close();
     $_SESSION['success'] = 'Student deleted successfully';
     header('Location: students.php');
     exit();

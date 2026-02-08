@@ -11,7 +11,9 @@ function getDBConnection() {
     
     // Check connection
     if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
+        // Log error securely (in production, write to log file)
+        error_log("Database connection failed: " . $conn->connect_error);
+        die("Database connection failed. Please contact the administrator.");
     }
     
     return $conn;

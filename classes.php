@@ -11,8 +11,11 @@ $conn = getDBConnection();
 
 // Handle delete
 if (isset($_GET['delete'])) {
-    $class_id = $_GET['delete'];
-    $conn->query("DELETE FROM classes WHERE class_id = $class_id");
+    $class_id = intval($_GET['delete']);
+    $stmt = $conn->prepare("DELETE FROM classes WHERE class_id = ?");
+    $stmt->bind_param("i", $class_id);
+    $stmt->execute();
+    $stmt->close();
     $_SESSION['success'] = 'Class deleted successfully';
     header('Location: classes.php');
     exit();
